@@ -44,13 +44,13 @@ us.map <- us.map[!us.map$STATEFP %in% c("81", "84", "86", "87", "89", "71", "76"
 us.map <- rbind(us.map, ak, hawi)
 
 # Projuce map
-county_map_data <- broom::tidy(us.map, region="GEOID")
+county_map_lambert <- broom::tidy(us.map, region="GEOID")
 # Remove helper data and save file. Be sure to remove .Randdom.seed if exists.
 rm(ak, county, hawi, us.map)
 rm(.Random.seed)
 # Use devtools to save data set.
-devtools::use_data(county_map_data, overwrite = TRUE)
-rm(county_map_data)
+devtools::use_data(county_map_lambert, overwrite = TRUE)
+rm(county_map_lambert)
 
 ########## county_map pulls the shape file for the 2015 FIPS codes and has a Mercator projection.
 ########## This projection is appropriate for a single state view of current data.
@@ -73,11 +73,11 @@ us.map <- us.map[!us.map$STATEFP %in% c("81", "84", "86", "87", "89", "71", "76"
                                         "95", "79"),]
 
 # Projuce map
-county_map_data_merc <- broom::tidy(us.map, region="GEOID")
+county_map_mercator <- broom::tidy(us.map, region="GEOID")
 # Remove helper data and save file. Be sure to remove .Randdom.seed if exists.
 rm(.Random.seed)
 # Use devtools to save data set.
-devtools::use_data(county_map_data_merc, overwrite = TRUE)
-rm(county_map_data_merc)
+devtools::use_data(county_map_mercator, overwrite = TRUE)
+rm(county_map_mercator)
 
 

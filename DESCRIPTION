@@ -1,5 +1,5 @@
 Package: blsmaps
-Title: A set data frames that have been rendered from U.S. maps
+Title: A set data frames that have been rendered from shapefiles of U.S. maps in various projections
 Version: 0.0.0.9000
 Authors@R: person("Kris", "Eberwein", email = "eberwein@knights.ucf.edu",
                   role = c("aut", "cre"))
