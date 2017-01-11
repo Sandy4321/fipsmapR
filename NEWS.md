@@ -1,4 +1,4 @@
-# blsmaps 0.0.9
+# fipsmapR 0.0.9
 
 ## New features
 
