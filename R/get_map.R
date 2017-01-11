@@ -2,7 +2,6 @@ library(sp)
 library(broom)
 library(rgdal)
 library(maptools)
-library(devtools)
 library(tigris)
 
 get_map <- function(projection = "mercator", year = 2015, resolution = "20m", lower48 = FALSE, reposition = TRUE,
@@ -11,10 +10,33 @@ get_map <- function(projection = "mercator", year = 2015, resolution = "20m", lo
     
     mapshape <- tigris::counties(cb = TRUE, resolution, year)
     
-    if(projection = "mercator" | projection = tolower("M")){
+    if(is.element(tolower(projection), c("mercator", "merc", "m"))){
+        # Mercator projection.
         us.map <- spTransform(mapshape, CRS("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0
                                  +x_0=0.0 +y_0=0 +k=1.0 +units=m +no_defs"))
     }
+    
+    if(is.element(tolower(projection), c("lambert equal", "lambert equal area", "lambert azimuthal equal area", "lea", "le", "laea"))){
+        # Lambert Azimuthal Equal Area
+        us.map  <- spTransform(mapshape, CRS("+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 
+                                          +ellps=GRS80 +units=m +no_defs")) 
+    }
+    
+    if(is.element(tolower(projection), c("lambert conformal conic", "lambert conic", "lc", "lcc"))){
+        us.map <- spTransform(mapshape, CRS("+proj=lcc +lat_1=33 +lat_2=45 +lat_0=39 +lon_0=-96 
+                                 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs")) 
+    }
+    
+    if(is.element(tolower(projection), c("albers equal area conic", "albers equal area", "aea", "aeac"))){
+        us.map <- spTransform(mapshape, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 
+                          +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs")) 
+    }
+    
+    if(is.element(tolower(projection), c("equidistant conic", "ec", "eqdc"))){
+        us.map <- spTransform(mapshape, CRS("+proj=eqdc +lat_0=39 +lon_0=-96 +lat_1=33 +lat_2=45 +x_0=0 
+                                 +y_0=0 +datum=NAD83 +units=m +no_defs"))
+    }
+    
     
     us.map@data$id <- rownames(us.map@data)
     
